@@ -1,0 +1,201 @@
+
+C:\Users\HP>mysql -u root -p
+Enter password: **********
+
+3. CREATE DATABASE databasename;
+3. CREATE DATABASE mydb
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| data               |
+| dtbase             |
+| information_schema |
+| mydatabase         |
+| mydb               |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+
+deletet database 
+mysql> drop database mydb;
+
+create tables
+mysql> create table student(roll int , name varchar(30),marks int , address varchar(50));
+mysql> create table stu(roll int , name varchar(30));
+
+show tables in database
+mysql> show tables;
++----------------------+
+| Tables_in_mydatabase |
++----------------------+
+| stu                  |
+| student              |
++----------------------+
+2 rows in set (0.00 sec)
+
+remove tables from database
+mysql> drop table stu;
+
+modify tables column  using alter  
+mysql> alter table student add fees int ;
+
+describtion tables
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll    | int         | YES  |     | NULL    |       |
+| name    | varchar(30) | YES  |     | NULL    |       |
+| marks   | int         | YES  |     | NULL    |       |
+| address | varchar(50) | YES  |     | NULL    |       |
+| fees    | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+insert values in table columns 
+
+mysql> insert into student(roll ,name, marks,address,fees) values(1,'ram',80,'indore',50000);
+
+mysql> insert into student(roll ,name, marks,address,fees) values(1,'rahul',90,'indore',60000);
+
+
+show table  values 
+mysql> select * from student;
++------+-------+-------+---------+-------+
+| roll | name  | marks | address | fees  |
++------+-------+-------+---------+-------+
+|    1 | ram   |    80 | indore  | 50000 |
+|    1 | rahul |    90 | indore  | 60000 |
++------+-------+-------+---------+-------+
+
+rename table columns
+mysql> alter table student rename column address to addr;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+delete table specific columns
+mysql> alter table student drop fees;
+
+
+show tables
+mysql> select * from student;
++------+-------+-------+--------+
+| roll | name  | marks | addr   |
++------+-------+-------+--------+
+|    1 | ram   |    80 | indore |
+|    1 | rahul |    90 | indore |
++------+-------+-------+--------+
+
+
+         constrains use  not null , unique 
+
+mysql> create table constraints(id int ,name varchar(20) not null,marks int unique);
+mysql> insert into constraints(id,name,marks) values(1,'ajay',50);
+
+mysql> insert into constraints(id,name,marks) values(1,'ajay',50);
+ERROR 1062 (23000): Duplicate entry '50' for key 'constraints.marks'
+
+
+mysql> select * from student where name='ram';
++------+------+-------+--------+
+| roll | name | marks | addr   |
++------+------+-------+--------+
+|    1 | ram  |    80 | indore |
++------+------+-------+--------+
+
+mysql> select * from student where name='ram' and roll=1;
++------+------+-------+--------+
+| roll | name | marks | addr   |
++------+------+-------+--------+
+|    1 | ram  |    80 | indore |
++------+------+-------+--------+
+
+mysql> select * from student where name='ram' or marks=90;
++------+-------+-------+--------+
+| roll | name  | marks | addr   |
++------+-------+-------+--------+
+|    1 | ram   |    80 | indore |
+|    1 | rahul |    90 | indore |
++------+-------+-------+--------+
+
+
+mysql> select * from student where not name='ram' or marks=90;
++------+-------+-------+--------+
+| roll | name  | marks | addr   |
++------+-------+-------+--------+
+|    1 | rahul |    90 | indore |
++------+-------+-------+--------+
+
+
+mysql> select * from student order by marks;
++------+-------+-------+--------+
+| roll | name  | marks | addr   |
++------+-------+-------+--------+
+|    1 | ram   |    80 | indore |
+|    1 | rahul |    90 | indore |
++------+-------+-------+--------+
+
+mysql> select * from student where name is null;
+Empty set (0.00 sec)
+The IS NULL operator is used to test for empty values (NULL values).
+
+
+update the existance records
+mysql> update student set name ='ravi' where marks=90;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+delete   the existance records in tables
+mysql> delete from student where roll=2;
+
+
+The SELECT TOP clause is used to specify the number of records to return.
+mysql> select * from student limit 2;
++------+------+-------+--------+
+| roll | name | marks | addr   |
++------+------+-------+--------+
+|    1 | ram  |    80 | indore |
+|    1 | ravi |    90 | indore |
++------+------+-------+--------+
+
+------------------------------------------------------------------------------
+mysql> select min(marks) from student;
++------------+
+| min(marks) |
++------------+
+|         75 |
++------------+
+
+mysql> select max(marks) from student;
++------------+
+| max(marks) |
++------------+
+|         95 |
++------------+
+
+mysql> select count(marks) from student;
++--------------+
+| count(marks) |
++--------------+
+|            4 |
++--------------+
+
+mysql> select avg(marks) from student;
++------------+
+| avg(marks) |
++------------+
+|    85.0000 |
++------------+
+
+mysql> select sum(marks) from student;
++------------+
+| sum(marks) |
++------------+
+|        340 |
++------------+
